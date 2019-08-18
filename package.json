@@ -23,7 +23,14 @@
   },
   "homepage": "https://github.com/neetjn/core-routing#readme",
   "devDependencies": {
+    "jest": "^24.9.0",
+    "jest-dom": "^4.0.0",
     "parcel": "^1.12.3",
     "tslint": "^5.18.0"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "verbose": true
   }
 }
