@@ -1,0 +1,29 @@
+{
+  "name": "core-routing",
+  "version": "0.0.1",
+  "description": "Framework agnostic interface for client sided routing using HTML5 history api.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neetjn/core-routing.git"
+  },
+  "keywords": [
+    "html5",
+    "client",
+    "routing",
+    "router"
+  ],
+  "author": "John Nolette <john@neetgroup.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neetjn/core-routing/issues"
+  },
+  "homepage": "https://github.com/neetjn/core-routing#readme",
+  "devDependencies": {
+    "parcel": "^1.12.3",
+    "tslint": "^5.18.0"
+  }
+}
