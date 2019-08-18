@@ -1,0 +1,16 @@
+dist: trusty
+language: node_js
+node_js:
+  - '12'
+install:
+  - npm ci
+cache: npm
+script:
+  - npm run build
+# deploy:
+#   provider: npm
+#   email: john@neetgroup.net
+#   api_key:
+#     secure: HAPzAOoFYP88Lp3PJwmrEh1F7X5UvSs8X4yUFwmjm6qir7JUM7/Zp4i9uZMxp8byohlVAmzGyDODcrGKXdIXjm13UAiQmmVWOmJO6GC9bcGRNQW7hm4p++vQawfSDgJcbxoKzZYhuiPA8zPRE6P52A8fcf0VGgR+WXHVJ45X/NzMbQXA92ydkccvzenk8B6YPR9BYWnffr4HADuIXDPZ8RwZEJW5TZ58VID9jB5TYpMYmonhSG76zMSepzo/gmcRxO/UHWPX3jkIznKz8mBUpAohsetWYpNaGo8tB/CcPU1mruuqZehIe+/zxQSZgQ6LhfrscwLZaDLG3msFXk8E0iSh+p7I6LCEIDT5C5q6fT7CrVVEQElxsUMcMosU4dTpMR4/IuZcD+TG4MFB2LLgmcYXaqAGgxa3CGaCQlvuW1oeg2bLXhIM65XPtNupe2wLq1jnPkzU+7mEWQO9AUde29YcuKArvtHA62XhKPx7WfEN6eKzkYa5cWraslGNLM/oZZ70/CjUnI/cfR9nqwBBVliAqwDf+dtpYCxvn79W1tb70H7cZhHs3E25hJEu4tuS1glsWWMTRpYazQYcpSxkpPlMgKPD7YPeiuVgvOYOqIRXwkCBPB1Z23AS/FGZ5MxHlSqU+r55PsrN/jYEMlAAh4jZYBVeAqt4oPspDzmUn94=
+#   on:
+#     branch: master
