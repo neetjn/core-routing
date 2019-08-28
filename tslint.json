@@ -1,7 +1,8 @@
 {
   "rules": {
+    "indent": [true, "spaces", 2],
     "curly": [true, "as-needed"],
-    "semicolon": [true, "never"],
+    "semicolon": [true, "always", "ignore-interfaces"],
     "no-empty": true,
     "no-unused-variable": true,
     "prefer-const": true,

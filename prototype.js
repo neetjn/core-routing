@@ -1,29 +1,21 @@
 class Utils {
-    constructor () {}
-    splitRoute (route) {
-
-    }
-    extractRouteVars (route, source) {
-
-    }
-    matchRoute (source) {
-
-    }
+  constructor() {}
+  splitRoute(route) {}
+  extractRouteVars(route, source) {}
+  matchRoute(source) {}
 }
 
 class RouterClient {
-    constructor() {}
-    onStart() {}
-    onStop() {}
-    onReload() {}
-    onNavigate() {}
-    onTransition() {}
+  constructor() {}
+  onStart() {}
+  onStop() {}
+  onReload() {}
+  onNavigate() {}
+  onTransition() {}
 }
 
 class Router {
-    constructor() {
-        
-    }
-    start () {}
-    stop () {}
+  constructor() {}
+  start() {}
+  stop() {}
 }

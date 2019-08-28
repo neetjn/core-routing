@@ -1,19 +1,19 @@
-export interface StartEvent {
-    
-}
-
-export interface StopEvent {
+export interface IStartEvent {
 
 }
 
-export interface NavigateEvent {
+export interface IStopEvent {
 
 }
 
-export interface ReloadEvent {
+export interface INavigateEvent {
 
 }
 
-export interface TransitionEvent {
-    
+export interface IReloadEvent {
+
+}
+
+export interface ITransitionEvent {
+
 }
