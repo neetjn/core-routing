@@ -6,9 +6,7 @@ interface ISettings {
 interface IRegex {
   settings: {
     default: RegExp;
-    fallback: RegExp;
     href: RegExp;
-    marker: RegExp;
   }
   routes: {
     variables: RegExp;
