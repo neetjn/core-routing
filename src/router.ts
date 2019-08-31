@@ -3,6 +3,21 @@ import { IRouterLocation } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
 
+// TODO: add documentation
+
+// TODO: complete router tools and implement in router
+class RouterTools implements IRouterTools {
+  process(route: string, source: string) {
+    return {
+
+    };
+  }
+
+  match(route: string, source: string) {
+    return false;
+  }
+}
+
 class Router implements IRouter {
   public config: IConfig;
   public location: IRouterLocation;
@@ -30,6 +45,8 @@ class Router implements IRouter {
   }
 
   watch () {
+    // TODO: figure out why watch not called with history.pushState
+    console.log('watch called?');
     if (this.running) {
       if (this.client && this.client.onNavigate) {
         this.client.onNavigate({
