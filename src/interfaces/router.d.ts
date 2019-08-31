@@ -1,3 +1,4 @@
+import { IConfig } from './config';
 import { IStartEvent, IStopEvent, INavigateEvent, IReloadEvent, ITransitionEvent } from './event';
 
 export interface IRouterClient {
@@ -13,9 +14,23 @@ export interface IRouterTools {
   match (route: string, source: string): boolean;
 }
 
-export interface IRouter {
+export interface IRouterLocation {
+  hash: string;
+  href: string;
+}
+
+export interface IRouterArgs {
+  config?: IConfig;
   client?: IRouterClient;
+}
+
+export interface IRouter {
+  config: IConfig;
+  location: IRouterLocation;
+  tools: IRouterTools;
   running: boolean;
+  client?: IRouterClient;
+
   _run (): any;
   start (): any;
   stop (): any;
@@ -24,6 +39,7 @@ export interface IRouter {
 /*
 
     import { Router, RouterClient } from 'core-routing'
+import { IConfig } from './config';
 
     const client: RouterClient = new RouterClient({
         onStart(event: StartEvent) {
