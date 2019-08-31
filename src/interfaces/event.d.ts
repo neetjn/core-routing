@@ -1,19 +1,21 @@
-export interface IStartEvent {
+interface IRouterEvent {
+  router?: any;
+}
+
+export interface IStartEvent extends IRouterEvent {
 
 }
 
-export interface IStopEvent {
+export interface IStopEvent extends IRouterEvent {
 
 }
 
-export interface INavigateEvent {
-
+export interface IRouterLocation extends IRouterEvent {
+  hash: string;
+  href: string;
 }
 
-export interface IReloadEvent {
-
-}
-
-export interface ITransitionEvent {
-
+export interface INavigateEvent extends IRouterEvent {
+  location: IRouterLocation;
+  previous: IRouterLocation;
 }

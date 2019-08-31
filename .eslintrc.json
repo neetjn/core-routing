@@ -1,6 +1,8 @@
 {
   "root": true,
-  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
   "rules": {
     "object-curly-spacing": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
@@ -20,10 +22,11 @@
     "no-useless-concat": "error"
   },
   "globals": {
-    "document": true,
-    "window": true,
     "require": true,
-    "module": true,
-    "process": true
+    "process": true,
+    "describe": true,
+    "it": true,
+    "document": true,
+    "window": true
   }
 }
