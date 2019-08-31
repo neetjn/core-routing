@@ -3,7 +3,7 @@ import { IRouterLocation } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
 
-export class Router implements IRouter {
+class Router implements IRouter {
   public config: IConfig;
   public location: IRouterLocation;
   public previous: IRouterLocation;
@@ -64,3 +64,5 @@ export class Router implements IRouter {
     }
   }
 }
+
+module.exports = Router;
