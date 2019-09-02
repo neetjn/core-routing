@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="./dist/router.js"></script>
+  </head>
+  <script>
+    const router = new Router({
+      client: {
+        onStart() {
+        console.log('started')
+        },
+        onNavigate(e) {
+          console.log('navigated!')
+          console.log(e)
+        },
+        onStop() {
+          console.log('stopped!')
+        }
+      }
+    });
+
+    router.start();
+  </script>
+</html>

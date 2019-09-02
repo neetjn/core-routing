@@ -15,6 +15,7 @@ interface IRegex {
 
 interface IIntervals {
   start: number;
+  listener: number;
   fragments: number;
 }
 

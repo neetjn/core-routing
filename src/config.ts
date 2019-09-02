@@ -16,6 +16,7 @@ export const Config: IConfig = {
   },
   intervals: {
     start: 10,
+    listener: 250,
     fragments: 250
   }
 };

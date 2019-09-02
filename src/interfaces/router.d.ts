@@ -23,6 +23,8 @@ export interface IRouter {
   previous: IRouterLocation,
   tools: IRouterTools;
   running: boolean;
+  legacySupport: boolean;
+  listenerKey?: number;
   client?: IRouterClient;
 
   watch(): any;

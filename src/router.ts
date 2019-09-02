@@ -7,13 +7,13 @@ import { Config } from './config';
 
 // TODO: complete router tools and implement in router
 class RouterTools implements IRouterTools {
-  process(route: string, source: string) {
+  process (route: string, source: string) {
     return {
 
     };
   }
 
-  match(route: string, source: string) {
+  match (route: string, source: string) {
     return false;
   }
 }
@@ -24,10 +24,12 @@ class Router implements IRouter {
   public previous: IRouterLocation;
   public tools: IRouterTools;
   public running: boolean;
+  public legacySupport: boolean;
+  public listenerKey?: number;
   public client?: IRouterClient;
 
   constructor (args: IRouterArgs) {
-    this.config = args.config || Config;
+    this.config = Object.assign(args.config || {}, Config);
     this.client = args.client;
     this.running = false;
 
@@ -42,11 +44,11 @@ class Router implements IRouter {
         window.history.pushState(null, null, location);
       }
     });
+
+    this.legacySupport = !('onpopstate' in window);
   }
 
   watch () {
-    // TODO: figure out why watch not called with history.pushState
-    console.log('watch called?');
     if (this.running) {
       if (this.client && this.client.onNavigate) {
         this.client.onNavigate({
@@ -54,18 +56,25 @@ class Router implements IRouter {
           location: this.location,
           previous: this.previous,
         });
+
+        this.previous = this.location;
       }
     }
   }
 
   start () {
     if (!this.running) {
+      this.running = true;
       if (this.client && this.client.onStart) {
         this.client.onStart({
           router: this,
         });
       }
-      window.addEventListener('hashchange', this.watch);
+      if (this.legacySupport) {
+        setInterval(this.watch, this.config.intervals.listener);
+      } else {
+        window.addEventListener('popstate', this.watch.bind(this));
+      }
     }
   }
 
@@ -77,7 +86,11 @@ class Router implements IRouter {
           router: this,
         });
       }
-      window.removeEventListener('hashchange', this.watch);
+      if (this.legacySupport) {
+        window.removeEventListener('popstate', this.watch);
+      } else {
+        clearInterval(this.listenerKey);
+      }
     }
   }
 }
