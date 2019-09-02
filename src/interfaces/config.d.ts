@@ -1,6 +1,7 @@
 interface ISettings {
   hash: string;
-  timeout: number;
+  useFragments: boolean;
+  memoizeLocalStorage;
 }
 
 interface IRegex {

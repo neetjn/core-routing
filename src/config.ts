@@ -3,7 +3,8 @@ import { IConfig } from './interfaces/config';
 export const Config: IConfig = {
   settings: {
     hash: '#!',
-    timeout: 5000
+    useFragments: false,
+    memoizeLocalStorage: false,
   },
   regex: {
     settings: {
