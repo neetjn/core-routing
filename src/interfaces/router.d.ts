@@ -18,10 +18,10 @@ export interface IRouterArgs {
 }
 
 export interface IRouter {
+  $location: IRouterLocation;
+  $previous: IRouterLocation,
+  $tools: IRouterTools;
   config: IConfig;
-  location: IRouterLocation;
-  previous: IRouterLocation,
-  tools: IRouterTools;
   running: boolean;
   legacySupport: boolean;
   listenerKey?: number;

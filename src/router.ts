@@ -19,10 +19,10 @@ class RouterTools implements IRouterTools {
 }
 
 class Router implements IRouter {
+  public $location: IRouterLocation;
+  public $previous: IRouterLocation;
+  public $tools: IRouterTools;
   public config: IConfig;
-  public location: IRouterLocation;
-  public previous: IRouterLocation;
-  public tools: IRouterTools;
   public running: boolean;
   public legacySupport: boolean;
   public listenerKey?: number;
@@ -33,7 +33,7 @@ class Router implements IRouter {
     this.client = args.client;
     this.running = false;
 
-    Object.defineProperty(this, 'location', {
+    Object.defineProperty(this, '$location', {
       get: () => {
         return {
           hash: window.location.hash,
@@ -49,15 +49,18 @@ class Router implements IRouter {
   }
 
   watch () {
+    // TODO: make ambiguous, must be able to run only on route change w/ interval
+
     if (this.running) {
+      // let navigated =
       if (this.client && this.client.onNavigate) {
         this.client.onNavigate({
           router: this,
-          location: this.location,
-          previous: this.previous,
+          location: this.$location,
+          previous: this.$previous,
         });
 
-        this.previous = this.location;
+        this.$previous = this.$location;
       }
     }
   }
