@@ -1,7 +1,5 @@
 interface ISettings {
   hash: string;
-  useFragments: boolean;
-  memoizeLocalStorage;
 }
 
 interface IRegex {
@@ -17,7 +15,6 @@ interface IRegex {
 interface IIntervals {
   start: number;
   listener: number;
-  fragments: number;
 }
 
 export interface IConfig {

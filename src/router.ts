@@ -1,12 +1,19 @@
 import { Memoize } from 'typescript-memoize';
-import { IRouterClient, IRouterTools, IRouterArgs, IRouter } from './interfaces/router';
+import {
+  IObject,
+  IRouterClient,
+  IRouterToolsResult,
+  IRouterToolsDetails,
+  IRouterTools,
+  IRouterArgs,
+  IRouter
+} from './interfaces/router';
 import { IRouterLocation } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
 
 // TODO: add documentation
 
-// TODO: complete router tools and implement in router
 class RouterTools implements IRouterTools {
   public config: IConfig;
 
@@ -15,15 +22,20 @@ class RouterTools implements IRouterTools {
   }
 
   @Memoize()
-  split (route: string, source: string) {
+  inspect (route: string, source: string) : IRouterToolsResult {
     let parts = route.split(this.config.settings.hash);
+    let query = '';
+    let fragment = '';
 
     if (parts.length === 2) {
-      if (this.config.settings.useFragments) {
-        // TODO: revise when implementing fragment identification
-        parts = parts.join('').split('#')[0].split('');
+      const trailing = parts.slice(-1)[0];
+      if (trailing.split('#').length > 1) {
+        // provide fragment
+        fragment = trailing.split('#')[1];
       }
-      // remove query arguments from route
+      // provide query arguments
+      query = trailing.split('?')[0].split('#')[0];
+      // remove query arguments + fragment from route
       // remove expected empty first element
       parts = parts.join('').split('?')[0].split('/').slice(1);
     } else {
@@ -33,14 +45,16 @@ class RouterTools implements IRouterTools {
 
     return {
       route: parts,
+      query,
+      fragment,
       // split source path and remove expected empty first element
       source: source.split('/').slice(1)
     };
   }
 
   @Memoize()
-  match (route: string, source: string) {
-    const result = this.split(route, source);
+  match (route: string, source: string) : boolean {
+    const result = this.inspect(route, source);
 
     if (result.route.length === result.source.length) {
       for (const i in result.source) {
@@ -54,10 +68,36 @@ class RouterTools implements IRouterTools {
     return false;
   }
 
-  process (route: string, source: string) {
-    // TODO: left here, process route details using source
-    return {
+  @Memoize()
+  process (route: string, source: string) : IRouterToolsDetails {
+    const result = this.inspect(route, source);
+    const variables: IObject = {};
+    const args: IObject = {};
 
+    result.source.forEach((part, i) => {
+      if (part.startsWith(':')) {
+        const name = part.slice(1);
+        const value = result.route[i];
+        variables[name] = value;
+      }
+    });
+
+    if (result.query) {
+      // deconstruct provided query string
+      const query = result.query.split('&');
+      query.forEach(arg => {
+        const temp: Array<string> = arg.split('=');
+        if (temp.length === 2) {
+          // assign query string arguments
+          args[temp[0]] = temp[1];
+        }
+      });
+    }
+
+    return {
+      result,
+      variables,
+      args
     };
   }
 }
@@ -124,9 +164,6 @@ class Router implements IRouter {
     }
   }
 
-  /*
-   *
-   */
   stop () {
     // TODO: ensure stop works as expected when binding watcher
     if (this.running) {
