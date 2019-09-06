@@ -7,17 +7,9 @@ export interface IRouterClient {
   onNavigate (event: INavigateEvent): any;
 }
 
-export interface IRouterToolsCache {
-  split: Object,
-  match: Object,
-  process: Object
-}
-
 export interface IRouterTools {
   config: IConfig;
-  cache: IRouterToolsCache;
 
-  _cacheKey (route: string, source: string): string;
   split (route: string, source: string) : Object;
   match (route: string, source: string): boolean;
   process (route: string, source: string) : Object;
@@ -35,9 +27,9 @@ export interface IRouter {
   listenerKey?: number;
   client?: IRouterClient;
 
+  $tools: IRouterTools;
   $location: IRouterLocation;
   $previous: IRouterLocation,
-  $tools: IRouterTools;
 
   watch (): any;
   start (): any;
