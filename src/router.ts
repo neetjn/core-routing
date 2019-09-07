@@ -62,6 +62,7 @@ class RouterTools implements IRouterTools {
           return false;
         }
       }
+      console.log(`Matched: "${route}" with "${source}"`);
       return true;
     }
 
@@ -119,14 +120,24 @@ class Router implements IRouter {
     this.legacySupport = !('onpopstate' in window);
     this.$tools = new RouterTools(this.config);
     this.$previous = {
+      path: '',
       hash: '',
       href: ''
     };
   }
 
   get $location () {
+    let path = '';
+    const hash = window.location.hash;
+    if (hash.split(this.config.settings.hash).length > 1) {
+      path = hash.split(this.config.settings.hash)[1];
+      if (!path.startsWith('/')) {
+        path = `/${path}`;
+      }
+    }
     return {
-      hash: window.location.hash,
+      path: path,
+      hash: hash,
       href: window.location.href
     };
   }
@@ -138,7 +149,7 @@ class Router implements IRouter {
       // let navigated =
       if (this.client && this.client.onNavigate) {
         this.client.onNavigate({
-          router: this,
+          $tools: this.$tools,
           location: this.$location,
           previous: this.$previous,
         });
@@ -153,7 +164,8 @@ class Router implements IRouter {
       this.running = true;
       if (this.client && this.client.onStart) {
         this.client.onStart({
-          router: this,
+          $tools: this.$tools,
+          location: this.$location
         });
       }
       if (this.legacySupport) {
@@ -170,7 +182,7 @@ class Router implements IRouter {
       this.running = false;
       if (this.client && this.client.onStop) {
         this.client.onStop({
-          router: this,
+          $tools: this.$tools,
         });
       }
       if (this.legacySupport) {

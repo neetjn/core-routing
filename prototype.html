@@ -4,22 +4,49 @@
     <meta charset="UTF-8">
     <script src="./dist/router.js"></script>
   </head>
-  <script>
-    const router = new Router({
-      client: {
-        onStart() {
-        console.log('started')
-        },
-        onNavigate(e) {
-          console.log('navigated!')
-          console.log(e)
-        },
-        onStop() {
-          console.log('stopped!')
-        }
-      }
-    });
+  <body>
+    <h1 id="context">{ROOT}</h1>
+    <!-- TODO: complete functional protoype -->
+    <script>
+      window.onload = (e) => {
+        const context = document.querySelector('#context');
+        const routes = [
+          {
+            path: '/',
+            name: 'home'
+          },
+          {
+            path: '/user/:userId/profile',
+            name: 'user-profile'
+          }
+        ];
 
-    router.start();
-  </script>
+        const matchRoute = (e) => {
+          console.log(`Matching Route: ${e.location.path}`);
+          const route = routes.find(r => e.$tools.match(e.location.path, r.path));
+          if (route) {
+            context.innerHTML = route.name;
+          }
+        };
+
+        const router = new Router({
+          client: {
+            onStart(e) {
+              console.log('Started');
+              matchRoute(e);
+            },
+            onNavigate(e) {
+              console.log('Navigated!');
+              matchRoute(e);
+            },
+            onStop() {
+              console.log('Stopped!');
+            }
+          }
+        });
+
+        router.start();
+      }
+    </script>
+  </body>
 </html>
