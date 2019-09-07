@@ -3,6 +3,7 @@ import { IConfig } from './interfaces/config';
 export const Config: IConfig = {
   settings: {
     hash: '#!',
+    wildcard: '*',
   },
   regex: {
     settings: {

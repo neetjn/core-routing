@@ -1,5 +1,6 @@
 interface ISettings {
   hash: string;
+  wildcard: string;
 }
 
 interface IRegex {

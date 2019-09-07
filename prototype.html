@@ -18,14 +18,23 @@
           {
             path: '/user/:userId/profile',
             name: 'user-profile'
+          },
+          {
+            path: '*',
+            name: 'not-found'
           }
         ];
 
         const matchRoute = (e) => {
-          console.log(`Matching Route: ${e.location.path}`);
-          const route = routes.find(r => e.$tools.match(e.location.path, r.path));
+          console.log(`Trying Route: ${e.location.path}`);
+          // const route = routes.find(r => e.$tools.match(e.location.path, r.path));
+          const route = routes.find(r => {
+            console.log(r);
+            return e.$tools.match(e.location.path, r.path)
+          });
+          console.log(route);
           if (route) {
-            context.innerHTML = route.name;
+            context.innerText = route.name;
           }
         };
 

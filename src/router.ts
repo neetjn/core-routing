@@ -48,25 +48,30 @@ class RouterTools implements IRouterTools {
       query,
       fragment,
       // split source path and remove expected empty first element
-      source: source.split('/').slice(1)
+      source: source !== '/' ? source.split('/').slice(1) : [source]
     };
   }
 
   @Memoize()
   match (route: string, source: string) : boolean {
-    const result = this.inspect(route, source);
+    // TODO: resolve matching logic
+    if (source !== this.config.settings.wildcard) {
+      const result = this.inspect(route, source);
 
-    if (result.route.length === result.source.length) {
-      for (const i in result.source) {
-        if (!(result.source[i].startsWith(':') || result.route[i] === result.source[i])) {
+      if (result.route.length === result.source.length) {
+        for (const i in result.source) {
+          if (result.source[i].startsWith(':') || result.route[i] === result.source[i]) {
+            console.log(`Skipping: "${result.source[i]}"`);
+            continue;
+          }
           return false;
         }
+        console.log(`Matched: "${route}" with "${source}"`);
+        return true;
       }
-      console.log(`Matched: "${route}" with "${source}"`);
-      return true;
+      return false;
     }
-
-    return false;
+    return true;
   }
 
   @Memoize()
