@@ -1,8 +1,13 @@
 import { IConfig } from './config';
-import { IStartEvent, IStopEvent, INavigateEvent, IRouterLocation } from './event';
+import {
+  IStartEvent,
+  IStopEvent,
+  INavigateEvent,
+  IRouterLocation
+} from './event';
 
 export interface IObject {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface IRouterClient {
@@ -27,9 +32,9 @@ export interface IRouterToolsDetails {
 export interface IRouterTools {
   config: IConfig;
 
-  inspect (route: string, source: string) : IRouterToolsResult;
+  inspect (route: string, source: string): IRouterToolsResult;
   match (route: string, source: string): boolean;
-  process (route: string, source: string) : IRouterToolsDetails;
+  process (route: string, source: string): IRouterToolsDetails;
 }
 
 export interface IRouterArgs {

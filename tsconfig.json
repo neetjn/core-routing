@@ -15,7 +15,8 @@
     "noEmit": true,
     "removeComments": true,
     "experimentalDecorators": true,
-    "types" : ["node"]
+    "types" : ["node"],
+    "noUnusedParameters": true,
   },
   "include": ["src"]
 }

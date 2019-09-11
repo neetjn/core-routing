@@ -22,7 +22,7 @@ class RouterTools implements IRouterTools {
   }
 
   @Memoize((route: string, source: string) => `${route}:${source}`)
-  inspect (route: string, source: string) : IRouterToolsResult {
+  inspect (route: string, source: string): IRouterToolsResult {
     let parts = route.split('/');
     let query = '';
     let fragment = '';
@@ -39,7 +39,11 @@ class RouterTools implements IRouterTools {
       }
       // remove query arguments + fragment from route
       // remove expected empty first element
-      parts = parts.join('/').split('?')[0].split('/').slice(1);
+      parts = parts
+        .join('/')
+        .split('?')[0]
+        .split('/')
+        .slice(1);
     } else {
       // default to route "/"
       parts = ['/'];
@@ -55,13 +59,16 @@ class RouterTools implements IRouterTools {
   }
 
   @Memoize((route: string, source: string) => `${route}:${source}`)
-  match (route: string, source: string) : boolean {
+  match (route: string, source: string): boolean {
     if (source !== this.config.settings.wildcard) {
       const result = this.inspect(route, source);
 
       if (result.route.length === result.source.length) {
         for (const i in result.source) {
-          if(!result.source[i].startsWith(':') && result.route[i] !== result.source[i]) {
+          if (
+            !result.source[i].startsWith(':') &&
+            result.route[i] !== result.source[i]
+          ) {
             return false;
           }
         }
@@ -74,7 +81,7 @@ class RouterTools implements IRouterTools {
   }
 
   @Memoize((route: string, source: string) => `${route}:${source}`)
-  process (route: string, source: string) : IRouterToolsDetails {
+  process (route: string, source: string): IRouterToolsDetails {
     const result = this.inspect(route, source);
     const variables: IObject = {};
     const args: IObject = {};
@@ -148,7 +155,10 @@ class Router implements IRouter {
 
   watch () {
     if (this.running) {
-      if (this.legacySupport && JSON.stringify(this.$location) === JSON.stringify(this.$previous)) {
+      if (
+        this.legacySupport &&
+        JSON.stringify(this.$location) === JSON.stringify(this.$previous)
+      ) {
         // bypass onNavigate trigger
         return;
       }
@@ -156,7 +166,7 @@ class Router implements IRouter {
         this.client.onNavigate({
           $tools: this.$tools,
           location: this.$location,
-          previous: this.$previous,
+          previous: this.$previous
         });
 
         this.$previous = this.$location;

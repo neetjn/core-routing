@@ -4,7 +4,8 @@
   "description": "Framework agnostic interface for client sided routing using HTML5 history api.",
   "main": "index.js",
   "scripts": {
-    "lint": "npx tslint src/**.ts && npx eslint __test__/**.js",
+    "lint": "npx tslint src/**.ts && npx eslint __test__/**.js && npx prettier-tslint check './src/**/**.ts'",
+    "pretty": "npx prettier-tslint fix './src/**/**.ts'",
     "bundle": "npx parcel build src/router.ts --global Router --target browser",
     "test": "node_modules/.bin/jest --coverage",
     "build": "npm run lint && npm run bundle && npm run test"
@@ -32,6 +33,7 @@
     "jest-dom": "^4.0.0",
     "parcel": "^1.12.3",
     "prettier": "^1.18.2",
+    "prettier-tslint": "^0.4.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.2",

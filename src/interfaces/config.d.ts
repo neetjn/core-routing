@@ -7,10 +7,10 @@ interface IRegex {
   settings: {
     default: RegExp;
     href: RegExp;
-  }
+  };
   routes: {
     variables: RegExp;
-  }
+  };
 }
 
 interface IIntervals {

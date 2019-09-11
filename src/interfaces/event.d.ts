@@ -3,7 +3,7 @@ interface IRouterEvent {
 }
 
 export interface IRouterLocation {
-  path: string,
+  path: string;
   hash: string;
   href: string;
 }
