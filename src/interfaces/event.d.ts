@@ -9,11 +9,11 @@ export interface IRouterLocation {
 }
 
 export interface IStartEvent extends IRouterEvent {
-  location: IRouterLocation
+  location: IRouterLocation;
 }
 
 export interface IStopEvent extends IRouterEvent {
-
+  location: IRouterLocation;
 }
 
 export interface INavigateEvent extends IRouterEvent {

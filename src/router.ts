@@ -21,7 +21,7 @@ class RouterTools implements IRouterTools {
     this.config = config;
   }
 
-  // @Memoize()
+  @Memoize((route: string, source: string) => `${route}:${source}`)
   inspect (route: string, source: string) : IRouterToolsResult {
     let parts = route.split('/');
     let query = '';
@@ -54,7 +54,7 @@ class RouterTools implements IRouterTools {
     };
   }
 
-  // @Memoize()
+  @Memoize((route: string, source: string) => `${route}:${source}`)
   match (route: string, source: string) : boolean {
     if (source !== this.config.settings.wildcard) {
       const result = this.inspect(route, source);
@@ -73,7 +73,7 @@ class RouterTools implements IRouterTools {
     return true;
   }
 
-  @Memoize()
+  @Memoize((route: string, source: string) => `${route}:${source}`)
   process (route: string, source: string) : IRouterToolsDetails {
     const result = this.inspect(route, source);
     const variables: IObject = {};
@@ -147,10 +147,11 @@ class Router implements IRouter {
   }
 
   watch () {
-    // TODO: make ambiguous, must be able to run only on route change w/ interval
-
     if (this.running) {
-      // let navigated =
+      if (this.legacySupport && JSON.stringify(this.$location) === JSON.stringify(this.$previous)) {
+        // bypass onNavigate trigger
+        return;
+      }
       if (this.client && this.client.onNavigate) {
         this.client.onNavigate({
           $tools: this.$tools,
@@ -173,7 +174,7 @@ class Router implements IRouter {
         });
       }
       if (this.legacySupport) {
-        setInterval(this.watch, this.config.intervals.listener);
+        setInterval(this.watch.bind(this), this.config.intervals.listener);
       } else {
         window.addEventListener('popstate', this.watch.bind(this));
       }
@@ -181,12 +182,12 @@ class Router implements IRouter {
   }
 
   stop () {
-    // TODO: ensure stop works as expected when binding watcher
     if (this.running) {
       this.running = false;
       if (this.client && this.client.onStop) {
         this.client.onStop({
           $tools: this.$tools,
+          location: this.$location
         });
       }
       if (this.legacySupport) {

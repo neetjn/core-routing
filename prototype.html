@@ -5,10 +5,12 @@
     <script src="./dist/router.js"></script>
   </head>
   <body>
-    <h1 id="context">{ROOT}</h1>
+    <h1>Route: <span id="context"></span></h1>
+    <h1>Details: <span id="details"></span></h1>
     <script>
       window.onload = (e) => {
         const context = document.querySelector('#context');
+        const details = document.querySelector('#details');
         const routes = [
           {
             path: '/',
@@ -28,8 +30,11 @@
           const route = routes.find(r => e.$tools.match(e.location.path, r.path));
           if (route) {
             context.innerText = route.name;
+            const routeDetails = e.$tools.process(e.location.path, route.path);
+            details.innerText = JSON.stringify(routeDetails);
           } else {
-            context.innerText = '{ PLEASE DEFINE A FALLBACK ROUTE }'
+            context.innerText = '{ PLEASE DEFINE A FALLBACK ROUTE }';
+            details.innerText = '{ }';
           }
         };
 
@@ -50,6 +55,8 @@
         });
 
         router.start();
+
+        window.setTimeout(router.stop.bind(router), 5000);
       }
     </script>
   </body>
