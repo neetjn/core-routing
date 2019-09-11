@@ -21,23 +21,25 @@ class RouterTools implements IRouterTools {
     this.config = config;
   }
 
-  @Memoize()
+  // @Memoize()
   inspect (route: string, source: string) : IRouterToolsResult {
-    let parts = route.split(this.config.settings.hash);
+    let parts = route.split('/');
     let query = '';
     let fragment = '';
 
-    if (parts.length === 2) {
+    if (parts.length > 1) {
       const trailing = parts.slice(-1)[0];
       if (trailing.split('#').length > 1) {
         // provide fragment
         fragment = trailing.split('#')[1];
       }
       // provide query arguments
-      query = trailing.split('?')[0].split('#')[0];
+      if (trailing.indexOf('?') !== -1) {
+        query = trailing.split('?')[1].split('#')[0];
+      }
       // remove query arguments + fragment from route
       // remove expected empty first element
-      parts = parts.join('').split('?')[0].split('/').slice(1);
+      parts = parts.join('/').split('?')[0].split('/').slice(1);
     } else {
       // default to route "/"
       parts = ['/'];
@@ -52,25 +54,22 @@ class RouterTools implements IRouterTools {
     };
   }
 
-  @Memoize()
+  // @Memoize()
   match (route: string, source: string) : boolean {
-    // TODO: resolve matching logic
     if (source !== this.config.settings.wildcard) {
       const result = this.inspect(route, source);
 
       if (result.route.length === result.source.length) {
         for (const i in result.source) {
-          if (result.source[i].startsWith(':') || result.route[i] === result.source[i]) {
-            console.log(`Skipping: "${result.source[i]}"`);
-            continue;
+          if(!result.source[i].startsWith(':') && result.route[i] !== result.source[i]) {
+            return false;
           }
-          return false;
         }
-        console.log(`Matched: "${route}" with "${source}"`);
-        return true;
+      } else {
+        return false;
       }
-      return false;
     }
+
     return true;
   }
 

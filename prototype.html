@@ -6,7 +6,6 @@
   </head>
   <body>
     <h1 id="context">{ROOT}</h1>
-    <!-- TODO: complete functional protoype -->
     <script>
       window.onload = (e) => {
         const context = document.querySelector('#context');
@@ -26,15 +25,11 @@
         ];
 
         const matchRoute = (e) => {
-          console.log(`Trying Route: ${e.location.path}`);
-          // const route = routes.find(r => e.$tools.match(e.location.path, r.path));
-          const route = routes.find(r => {
-            console.log(r);
-            return e.$tools.match(e.location.path, r.path)
-          });
-          console.log(route);
+          const route = routes.find(r => e.$tools.match(e.location.path, r.path));
           if (route) {
             context.innerText = route.name;
+          } else {
+            context.innerText = '{ PLEASE DEFINE A FALLBACK ROUTE }'
           }
         };
 
