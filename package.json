@@ -1,6 +1,6 @@
 {
   "name": "core-routing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Framework agnostic interface for client sided routing using HTML5 history api.",
   "main": "dist/router.prod.js",
   "scripts": {
