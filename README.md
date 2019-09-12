@@ -12,11 +12,72 @@ Framework agnostic interface for client sided routing using the HTML5 history ap
 
 ## Why
 
-TBD
+This project was created ...
 
 ## About
 
 TBD
+
+## Configuration
+
+TBD
+
+### Example
+
+```html
+    <h1>Route: <span id="context"></span></h1>
+    <h1>Details: <span id="details"></span></h1>    
+    <script>
+      window.onload = (e) => {
+        const context = document.querySelector('#context');
+        const details = document.querySelector('#details');
+        const routes = [
+          {
+            path: '/',
+            name: 'home'
+          },
+          {
+            path: '/user/:userId/profile',
+            name: 'user-profile'
+          },
+          {
+            path: '*',
+            name: 'not-found'
+          }
+        ];
+
+        const matchRoute = (e) => {
+          const route = routes.find(r => e.$tools.match(e.location.path, r.path));
+          if (route) {
+            context.innerText = route.name;
+            const routeDetails = e.$tools.process(e.location.path, route.path);
+            details.innerText = JSON.stringify(routeDetails);
+          } else {
+            context.innerText = '{ PLEASE DEFINE A FALLBACK ROUTE }';
+            details.innerText = '{ }';
+          }
+        };
+
+        const router = new Router({
+          client: {
+            onStart(e) {
+              console.log('Started');
+              matchRoute(e);
+            },
+            onNavigate(e) {
+              console.log('Navigated!');
+              matchRoute(e);
+            },
+            onStop() {
+              console.log('Stopped!');
+            }
+          }
+        });
+
+        router.start();
+      }
+    </script>
+```
 
 ## Install
 
