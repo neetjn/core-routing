@@ -1,5 +1,5 @@
 require('@testing-library/jest-dom/extend-expect')
-const Router = require('../dist/router')
+const Router = require('../dist/router.dev')
 
 // TODO: add test for config
 // TODO: add test for legacy support

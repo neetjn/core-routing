@@ -2,13 +2,15 @@
   "name": "core-routing",
   "version": "0.0.1",
   "description": "Framework agnostic interface for client sided routing using HTML5 history api.",
-  "main": "index.js",
+  "main": "dist/router.prod.js",
   "scripts": {
     "lint": "npx tslint src/**.ts && npx eslint __test__/**.js",
     "pretty": "npx prettier-tslint fix './src/**/**.ts'",
-    "bundle": "npx parcel build src/router.ts --global Router --target browser",
+    "bundle:prod": "npx parcel build src/router.ts --global Router --target browser -o ./dist/router.prod.js",
+    "bundle:dev": "npx parcel build src/router.ts --global Router --target browser --no-minify -o ./dist/router.dev.js",
+    "bundle": "npm run bundle:dev && npm run bundle:prod",
     "test": "npx jest --coverage",
-    "build": "npm run lint && npm run bundle && npm run test"
+    "build": "npm run lint && npm run bundle:prod && npm run test"
   },
   "repository": {
     "type": "git",
