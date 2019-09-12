@@ -4,7 +4,7 @@
   "description": "Framework agnostic interface for client sided routing using HTML5 history api.",
   "main": "index.js",
   "scripts": {
-    "lint": "npx tslint src/**.ts && npx eslint __test__/**.js'",
+    "lint": "npx tslint src/**.ts && npx eslint __test__/**.js",
     "pretty": "npx prettier-tslint fix './src/**/**.ts'",
     "bundle": "npx parcel build src/router.ts --global Router --target browser",
     "test": "npx jest --coverage",
