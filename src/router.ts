@@ -168,15 +168,17 @@ class Router implements IRouter {
           location: this.$location,
           previous: this.$previous
         });
-
-        this.$previous = this.$location;
       }
+      this.$previous = this.$location;
     }
   }
 
   start () {
     if (!this.running) {
+      // toggle routing capabilities
       this.running = true;
+      // initialize default previous location
+      this.$previous = this.$location;
       if (this.client && this.client.onStart) {
         this.client.onStart({
           $tools: this.$tools,
@@ -193,6 +195,7 @@ class Router implements IRouter {
 
   stop () {
     if (this.running) {
+      // toggle routing capabilities
       this.running = false;
       if (this.client && this.client.onStop) {
         this.client.onStop({

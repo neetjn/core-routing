@@ -27,6 +27,10 @@
     "describe": true,
     "it": true,
     "document": true,
-    "window": true
+    "window": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "expect": true,
+    "Event": true
   }
 }
