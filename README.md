@@ -8,7 +8,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Simple interface for client sided routing using the HTML5 history ai.
+Framework agnostic interface for client sided routing using the HTML5 history api.
 
 ## Why
 
