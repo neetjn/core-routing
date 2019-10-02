@@ -251,11 +251,12 @@ var RouterTools = function () {
   }
 
   RouterTools.prototype.inspect = function (route, source) {
-    var parts = route.split('/');
+    var parts;
     var query = '';
     var fragment = '';
 
-    if (parts.length > 1) {
+    if (route !== '/') {
+      parts = route.split('/');
       var trailing = parts.slice(-1)[0];
 
       if (trailing.split('#').length > 1) {

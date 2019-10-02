@@ -65,7 +65,6 @@ class RouterTools implements IRouterTools {
   match (route: string, source: string): boolean {
     if (source !== this.config.settings.wildcard) {
       const result = this.inspect(route, source);
-
       if (result.route.length === result.source.length) {
         for (const i in result.source) {
           if (

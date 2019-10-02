@@ -113,5 +113,9 @@ describe('Router', () => {
       expect(ctx.state.navigated.called).toBe(1)
       expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
       expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_EMPTY_LOCATION_EVENT)
+      expect(ctx.state.navigated.event.$tools.match(
+        EMPTY_ROUTE,
+        ctx.state.navigated.event.location.path
+      )).toBeTruthy()
     })
 })
