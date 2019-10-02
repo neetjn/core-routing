@@ -10,7 +10,7 @@
     "bundle:dev": "npx parcel build src/router.ts --global Router --target browser --no-minify -o ./dist/router.dev.js",
     "bundle": "npm run bundle:dev && npm run bundle:prod",
     "test": "npx jest --coverage",
-    "build": "npm run lint && npm run bundle:prod && npm run test"
+    "build": "npm run lint && npm run bundle && npm run test"
   },
   "repository": {
     "type": "git",

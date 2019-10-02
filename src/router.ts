@@ -23,11 +23,14 @@ class RouterTools implements IRouterTools {
 
   @Memoize((route: string, source: string) => `${route}:${source}`)
   inspect (route: string, source: string): IRouterToolsResult {
-    let parts = route.split('/');
+    let parts;
     let query = '';
     let fragment = '';
 
-    if (parts.length > 1) {
+    if (route !== '/') {
+      // split route path
+      parts = route.split('/');
+      // remove trailing from path
       const trailing = parts.slice(-1)[0];
       if (trailing.split('#').length > 1) {
         // provide fragment
@@ -62,7 +65,6 @@ class RouterTools implements IRouterTools {
   match (route: string, source: string): boolean {
     if (source !== this.config.settings.wildcard) {
       const result = this.inspect(route, source);
-
       if (result.route.length === result.source.length) {
         for (const i in result.source) {
           if (

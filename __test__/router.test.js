@@ -24,6 +24,13 @@ describe('Router', () => {
       href: `http://localhost/#!${NAVIGATED_ROUTE}`
     }
 
+    const EMPTY_ROUTE = '/'
+    const NAVIGATED_EMPTY_LOCATION_EVENT = {
+      path: EMPTY_ROUTE,
+      hash: `#!${EMPTY_ROUTE}`,
+      href: `http://localhost/#!${EMPTY_ROUTE}`
+    }
+
     const ctx = { }
 
     beforeEach(() => {
@@ -95,5 +102,20 @@ describe('Router', () => {
       expect(ctx.state.navigated.called).toBe(1)
       expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
       expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_LOCATION_EVENT)
+    })
+
+    // TAG: issue-18 - https://github.com/neetjn/core-routing/issues/18
+    it('should handle empty paths as expected', () => {
+      expect(ctx.state.navigated.called).toBe(0)
+      ctx.router.start()
+      expect(ctx.state.navigated.called).toBe(0)
+      navigate(EMPTY_ROUTE)
+      expect(ctx.state.navigated.called).toBe(1)
+      expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
+      expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_EMPTY_LOCATION_EVENT)
+      expect(ctx.state.navigated.event.$tools.match(
+        EMPTY_ROUTE,
+        ctx.state.navigated.event.location.path
+      )).toBeTruthy()
     })
 })
