@@ -245,6 +245,10 @@ var __decorate = void 0 && (void 0).__decorate || function (decorators, target, 
   return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
+var memoizeRTKey = function memoizeRTKey(route, source) {
+  return route + ":" + source;
+};
+
 var RouterTools = function () {
   function RouterTools(config) {
     this.config = config;
@@ -328,17 +332,11 @@ var RouterTools = function () {
     };
   };
 
-  __decorate([(0, _typescriptMemoize.Memoize)(function (route, source) {
-    return route + ":" + source;
-  })], RouterTools.prototype, "inspect", null);
+  __decorate([(0, _typescriptMemoize.Memoize)(memoizeRTKey)], RouterTools.prototype, "inspect", null);
 
-  __decorate([(0, _typescriptMemoize.Memoize)(function (route, source) {
-    return route + ":" + source;
-  })], RouterTools.prototype, "match", null);
+  __decorate([(0, _typescriptMemoize.Memoize)(memoizeRTKey)], RouterTools.prototype, "match", null);
 
-  __decorate([(0, _typescriptMemoize.Memoize)(function (route, source) {
-    return route + ":" + source;
-  })], RouterTools.prototype, "process", null);
+  __decorate([(0, _typescriptMemoize.Memoize)(memoizeRTKey)], RouterTools.prototype, "process", null);
 
   return RouterTools;
 }();
