@@ -12,6 +12,10 @@ import { IRouterLocation } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
 
+// Provider for generating memoize cache keys for router tools.
+// @param {string} route
+// @param {string} source
+// @returns {string}
 const memoizeRTKey = (route: string, source: string): string => `${route}:${source}`;
 
 class RouterTools implements IRouterTools {
@@ -22,9 +26,9 @@ class RouterTools implements IRouterTools {
   }
 
   /**
-   * Provides basic information for both a route and source.
-   * @param {string} route -
-   * @param {string} source -
+   * Provides basic information for both a route and source path.
+   * @param {string} route - Route for inspection.
+   * @param {string} source - Source path.
    * @returns {IRouterToolsResult}
 
     inspect('/user/1/profile?strict=true#header', '/user/:userId/profile') =>
@@ -79,9 +83,15 @@ class RouterTools implements IRouterTools {
   }
 
   /**
-   *
-   * @param route
-   * @param source
+   * Match a given route with a source path.
+   * @param route - Route to match against source path.
+   * @param source - Source path to match against route.
+   * @returns {boolean}
+
+    match('/user/search/groups', '/user/:userId/profile') => false
+    match('/user/1/profile', '/user/:userId/profile') => true
+    match('/some/route/yo', '*') => true
+
    */
   @Memoize(memoizeRTKey)
   match (route: string, source: string): boolean {
@@ -110,6 +120,19 @@ class RouterTools implements IRouterTools {
     return true;
   }
 
+  /**
+   *
+   * @param route - Route to process.
+   * @param source - Source path to process.
+   * @returns {boolean}
+
+    process('/user/1/profile', '/user/:userId/profile') =>
+
+      {
+
+      }
+
+   */
   @Memoize(memoizeRTKey)
   process (route: string, source: string): IRouterToolsDetails {
     const result = this.inspect(route, source);
@@ -167,6 +190,9 @@ class Router implements IRouter {
     };
   }
 
+  /**
+   *
+   */
   get $location () {
     let path = '';
     const hash = window.location.hash;
@@ -183,6 +209,9 @@ class Router implements IRouter {
     };
   }
 
+  /**
+   *
+   */
   watch () {
     if (this.running) {
       if (
@@ -203,6 +232,9 @@ class Router implements IRouter {
     }
   }
 
+  /**
+   *
+   */
   start () {
     if (!this.running) {
       // toggle routing capabilities
@@ -223,6 +255,9 @@ class Router implements IRouter {
     }
   }
 
+  /**
+   *
+   */
   stop () {
     if (this.running) {
       // toggle routing capabilities
