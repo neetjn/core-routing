@@ -21,13 +21,6 @@ describe('Router (legacy support)', () => {
       href: `http://localhost/#!${NAVIGATED_ROUTE}`
     }
 
-    const EMPTY_ROUTE = '/'
-    const NAVIGATED_EMPTY_LOCATION_EVENT = {
-      path: EMPTY_ROUTE,
-      hash: `#!${EMPTY_ROUTE}`,
-      href: `http://localhost/#!${EMPTY_ROUTE}`
-    }
-
     const ctx = { }
 
     beforeEach(() => {
