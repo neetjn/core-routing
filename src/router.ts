@@ -12,7 +12,7 @@ import { IRouterLocation } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
 
-// TODO: add documentation
+const memoizeRTKey = (route: string, source: string): string => `${route}:${source}`;
 
 class RouterTools implements IRouterTools {
   public config: IConfig;
@@ -21,12 +21,29 @@ class RouterTools implements IRouterTools {
     this.config = config;
   }
 
-  @Memoize((route: string, source: string) => `${route}:${source}`)
+  /**
+   * Provides basic information for both a route and source.
+   * @param {string} route -
+   * @param {string} source -
+   * @returns {IRouterToolsResult}
+
+    inspect('/user/1/profile?strict=true#header', '/user/:userId/profile') =>
+
+      {
+        route: ['user', '1', 'profile'],
+        query: 'strict=true',
+        fragment: 'header',
+        source: ['user', ':userId', 'profile']
+      }
+
+   */
+  @Memoize(memoizeRTKey)
   inspect (route: string, source: string): IRouterToolsResult {
     let parts;
     let query = '';
     let fragment = '';
 
+    // skip computations on empty path
     if (route !== '/') {
       // split route path
       parts = route.split('/');
@@ -61,12 +78,23 @@ class RouterTools implements IRouterTools {
     };
   }
 
-  @Memoize((route: string, source: string) => `${route}:${source}`)
+  /**
+   *
+   * @param route
+   * @param source
+   */
+  @Memoize(memoizeRTKey)
   match (route: string, source: string): boolean {
+    // skip computation and match if path is wildcard
     if (source !== this.config.settings.wildcard) {
       const result = this.inspect(route, source);
+      // don't even bother computations if length mismatch in path
       if (result.route.length === result.source.length) {
         for (const i in result.source) {
+          // fail if not variable as denoted by source and chunk mismatch
+          // result.source => ['user', ':userId', 'profile']
+          // result.route => ['user', 'search', 'groups']
+          // result.source[3] != result.route[3]
           if (
             !result.source[i].startsWith(':') &&
             result.route[i] !== result.source[i]
@@ -82,7 +110,7 @@ class RouterTools implements IRouterTools {
     return true;
   }
 
-  @Memoize((route: string, source: string) => `${route}:${source}`)
+  @Memoize(memoizeRTKey)
   process (route: string, source: string): IRouterToolsDetails {
     const result = this.inspect(route, source);
     const variables: IObject = {};
