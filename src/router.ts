@@ -121,15 +121,26 @@ class RouterTools implements IRouterTools {
   }
 
   /**
-   *
+   * Provides detailed information for both a route and source path.
    * @param route - Route to process.
    * @param source - Source path to process.
    * @returns {boolean}
 
-    process('/user/1/profile', '/user/:userId/profile') =>
+    process('/user/1/profile?strict=true#header', '/user/:userId/profile') =>
 
       {
-
+        result: {
+          route: ['user', '1', 'profile'],
+          query: 'strict=true',
+          fragment: 'header',
+          source: ['user', ':userId', 'profile']
+        },
+        variables: {
+          userId: 1
+        }
+        args: {
+          strict: 'true'
+        }
       }
 
    */
@@ -181,6 +192,7 @@ class Router implements IRouter {
     this.config = Object.assign(args.config || {}, Config);
     this.client = args.client;
     this.running = false;
+    // set to legacy mode if target HTML5 history api event not detected
     this.legacySupport = !('onpopstate' in window);
     this.$tools = new RouterTools(this.config);
     this.$previous = {
@@ -191,9 +203,10 @@ class Router implements IRouter {
   }
 
   /**
-   *
+   * Get detailed window location info.
+   * @returns {IRouterLocation}
    */
-  get $location () {
+  get $location (): IRouterLocation {
     let path = '';
     const hash = window.location.hash;
     if (hash.split(this.config.settings.hash).length > 1) {
@@ -209,11 +222,11 @@ class Router implements IRouter {
     };
   }
 
-  /**
-   *
-   */
+  /** Subroutine for handling router navigation events */
   watch () {
     if (this.running) {
+      // if legacy support detected and location unchanged between previous and current cycle
+      // skip trigger for navigation event
       if (
         this.legacySupport &&
         JSON.stringify(this.$location) === JSON.stringify(this.$previous)
@@ -232,9 +245,7 @@ class Router implements IRouter {
     }
   }
 
-  /**
-   *
-   */
+  /** Start router listener on navigation events */
   start () {
     if (!this.running) {
       // toggle routing capabilities
@@ -248,6 +259,7 @@ class Router implements IRouter {
         });
       }
       if (this.legacySupport) {
+        // if legacy support is detected, set listener on interval
         setInterval(this.watch.bind(this), this.config.intervals.listener);
       } else {
         window.addEventListener('popstate', this.watch.bind(this));
@@ -255,9 +267,7 @@ class Router implements IRouter {
     }
   }
 
-  /**
-   *
-   */
+  /** Halt router listener on navigation events */
   stop () {
     if (this.running) {
       // toggle routing capabilities
