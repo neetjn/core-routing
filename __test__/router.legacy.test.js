@@ -1,10 +1,10 @@
 require('@testing-library/jest-dom/extend-expect')
 const Router = require('../dist/router.dev')
 
-describe('Router', () => {
+// TAG: issue-15 - https://github.com/neetjn/core-routing/issues/15
+describe('Router (legacy support)', () => {
     const navigate = route => {
       window.location.hash = `#!${route}`
-      window.dispatchEvent(new Event('popstate'))
     }
 
     const DEFAULT_ROUTE = '/home'
@@ -48,6 +48,10 @@ describe('Router', () => {
 
       navigate(DEFAULT_ROUTE)
 
+      // delete popstate handler in window
+      // should trigger legacy fallback
+      delete(window.onpopstate)
+
       ctx.router = new Router({
         client: {
           onStart(e) {
@@ -73,8 +77,7 @@ describe('Router', () => {
     it('should initialize as expected', () => {
       expect(ctx.router.running).toBeFalsy()
       expect(ctx.state.started.called).toBe(0)
-      // TAG: issue-15 - https://github.com/neetjn/core-routing/issues/15
-      expect(ctx.router.legacySupport).toBeFalsy()
+      expect(ctx.router.legacySupport).toBeTruthy()
     })
 
     it('should start as expected', () => {
@@ -98,6 +101,7 @@ describe('Router', () => {
       ctx.router.start()
       expect(ctx.state.navigated.called).toBe(0)
       navigate(NAVIGATED_ROUTE)
+      // TODO: left here, resolve navigation failure
       expect(ctx.state.navigated.called).toBe(1)
       expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
       expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_LOCATION_EVENT)
