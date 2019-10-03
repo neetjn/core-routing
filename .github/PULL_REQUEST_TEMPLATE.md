@@ -2,11 +2,15 @@
 
 #### Code
 
-1. Have you added test(s) for your patch? If not, why not?
+1. Related issue(s):
 
-2. Can you provide an example of your patch in use?
+  * [Issue x](https://github.com/neetjn/core-routing/issues/x) - Some issue.
 
-3. Is this a breaking change?
+2. Have you added test(s) for your patch? If not, why not?
+
+3. Can you provide an example of your patch in use?
+
+4. Is this a breaking change?
 
 #### Content
 
