@@ -11,19 +11,19 @@
 
 Framework agnostic interface for client sided routing using the HTML5 history api.
 
-## Why
+### Why
 
-This project was created ...
+This project was created in wake of a redesign of the [riot-view-router](https://github.com/neetjn/riot-view-router) project. It was designed from the ground up to be a reliable, speedy, framework agnostic interface for client sided routing using the HTML 5 history api. This framework aims not to define a paradigm from which developers can flesh out framework specific routers, but provides an interface to help make the process much simpler and more streamline.
 
-## About
+### About
+
+This project is still in it's infancy phase, and there is no single specification for the client api...
+
+### Configuration
 
 TBD
 
-## Configuration
-
-TBD
-
-## Use
+### Use
 
 TBD
 
@@ -93,15 +93,31 @@ TBD
 
 ## Install
 
-TBD
+To install via NPM:
+```sh
+npm install core-routing
+```
+For a quick start using jsdelivr:
+```html
+<script src="https://cdn.jsdelivr.net/npm/core-routing/dist/core-routing.prod.js"></script>
+```
+
 
 ## Development
 
-TBD
+This project uses [prettier]() for code styling and leverages tslint and jslint to ensure consistency...
 
-## Contributing
+## Contributors
 
-TBD
+* **John Nolette** (john@neetgroup.net)
+
+Contributing guidelines are as follows,
+
+* Any new features or bug fixes must include either a test.
+  * Branches for bugs and features should be structured like so, `issue-x-username`.
+* Before putting in a pull request, be sure to verify you've built all your changes and your code adheres to the defined TS and JS style rules.
+  * Use `npm run lint` to lint your code and `npm run pretty` to format.
+* Include your name and email in the contributors list.
 
 ---
 
