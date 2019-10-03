@@ -96,29 +96,16 @@ describe('Router (legacy support)', () => {
       expect(ctx.state.stopped.event.location).toEqual(DEFAULT_LOCATION_EVENT)
     })
 
-    it('should handle navigations as expected', () => {
+    it('should handle navigations as expected', (done) => {
       expect(ctx.state.navigated.called).toBe(0)
       ctx.router.start()
       expect(ctx.state.navigated.called).toBe(0)
       navigate(NAVIGATED_ROUTE)
-      // TODO: left here, resolve navigation failure
-      expect(ctx.state.navigated.called).toBe(1)
-      expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
-      expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_LOCATION_EVENT)
-    })
-
-    // TAG: issue-18 - https://github.com/neetjn/core-routing/issues/18
-    it('should handle empty paths as expected', () => {
-      expect(ctx.state.navigated.called).toBe(0)
-      ctx.router.start()
-      expect(ctx.state.navigated.called).toBe(0)
-      navigate(EMPTY_ROUTE)
-      expect(ctx.state.navigated.called).toBe(1)
-      expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
-      expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_EMPTY_LOCATION_EVENT)
-      expect(ctx.state.navigated.event.$tools.match(
-        EMPTY_ROUTE,
-        ctx.state.navigated.event.location.path
-      )).toBeTruthy()
+      window.setTimeout(() => {
+        expect(ctx.state.navigated.called).toBe(1)
+        expect(ctx.state.navigated.event.previous).toEqual(DEFAULT_LOCATION_EVENT)
+        expect(ctx.state.navigated.event.location).toEqual(NAVIGATED_LOCATION_EVENT)
+        done()
+      }, ctx.router.config.intervals.listener)
     })
   })
