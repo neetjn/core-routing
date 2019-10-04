@@ -11,17 +11,15 @@
 
 Framework agnostic interface for client sided routing using the HTML5 history api.
 
-### Why
-
-This project was created in wake of a redesign of the [riot-view-router](https://github.com/neetjn/riot-view-router) project. It was designed from the ground up to be a reliable, speedy, framework agnostic interface for client sided routing using the HTML 5 history api. This framework aims not to define a paradigm from which developers can flesh out framework specific routers, but provides an interface to help make the process much simpler and more streamline.
-
 ### About
 
-This project is still in it's infancy phase, and there is no single specification for the client api...
+> This project is still in it's infancy phase, and there is no single specification for the client api.
+
+This project was created in wake of a redesign of the [riot-view-router](https://github.com/neetjn/riot-view-router) project. It was designed from the ground up to be a reliable, speedy, framework agnostic interface for client sided routing using the HTML 5 history api. This framework aims not to define a paradigm from which developers can flesh out framework specific routers, but to provide an interface to help make the process much simpler and more streamline.
 
 ### Configuration
 
-TBD
+This project is highly configurable...
 
 ### Use
 
@@ -102,10 +100,19 @@ For a quick start using jsdelivr:
 <script src="https://cdn.jsdelivr.net/npm/core-routing/dist/core-routing.prod.js"></script>
 ```
 
-
 ## Development
 
-This project uses [prettier]() for code styling and leverages tslint and jslint to ensure consistency...
+This project uses [prettier]() for code styling and leverages [tslint]() and [jslint]() to ensure consistency. For testing, we use [Jest]() with [jest-dom](). Refer to the following npm commands to simplify your development workflow:
+
+* **lint** - Lint core project and tests.
+* **pretty** - Use prettier to clean/format core project (using prettier-tslint to abide by our tslint rules).
+* **bundle:prod** - Bundle the project for production (output to `dist/router.prod.js`).
+* **bundle:dev** - Bundle the project for development (output to `dist/router.dev.js`).
+* **bundle** - Bundle the project for both development and production.
+* **test** - Run test suite.
+* **build** - Lint, bundle, and test the project.
+
+As a general rule of thumb, please reach out to lead maintainers before adding any new jslint or tslint rules.
 
 ## Contributors
 
