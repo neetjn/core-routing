@@ -11,6 +11,14 @@
 
 Framework agnostic interface for client sided routing using the HTML5 history api.
 
+### Support
+
+> Support is available for older browsers without the HTML 5 history api, however events may be dispatched irregularly and all features may not be available.
+
+| Chome  | Edge | Firefox | Opera    | Safari |
+|--------|------|---------|----------|--------|
+| 5.0+ ✔ |  ✔   | 4.0+ ✔  | 11.50+ ✔ | 5.0+ ✔ |
+
 ### About
 
 > This project is still in it's infancy phase, and there is no single specification for the client api.
