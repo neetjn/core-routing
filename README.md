@@ -25,13 +25,56 @@ Framework agnostic interface for client sided routing using the HTML5 history ap
 
 This project was created in wake of a redesign of the [riot-view-router](https://github.com/neetjn/riot-view-router) project. It was designed from the ground up to be a reliable, speedy, framework agnostic interface for client sided routing using the HTML 5 history api. This framework aims not to define a paradigm from which developers can flesh out framework specific routers, but to provide an interface to help make the process much simpler and more streamline.
 
-### Configuration
+## Install
 
-This project is highly configurable...
+To install via NPM:
+```sh
+npm install core-routing
+```
+For a quick start using jsdelivr:
+```html
+<script src="https://cdn.jsdelivr.net/npm/core-routing/dist/core-routing.prod.js"></script>
+```
 
 ### Use
 
-TBD
+The router at it's core is quite simple to use. The bundle exposes a UMD module that can be imported with CommonJS:
+
+```js
+const Router = require('core-routing');
+```
+
+or ES6
+
+```js
+import Router from 'core-routing'
+```
+
+When referencing from a browser, a global definition `Router` will be exposed:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/core-routing/dist/core-routing.prod.js"></script>
+<script>
+  const router = new Router(...);
+</script>
+```
+
+The constructor takes an object in the form:
+
+```js
+{
+  client?: {
+    onStart?: => (e) { },
+    onNavigate?: => (e) { },
+    onStop?: (e) => { }
+  },
+  config?: {
+    ...
+  }
+}
+```
+
+Event details/structure can be seen [here](https://github.com/neetjn/core-routing/blob/master/src/interfaces/event.d.ts).
 
 ### Example
 
@@ -95,17 +138,6 @@ TBD
     router.start();
   };
 </script>
-```
-
-## Install
-
-To install via NPM:
-```sh
-npm install core-routing
-```
-For a quick start using jsdelivr:
-```html
-<script src="https://cdn.jsdelivr.net/npm/core-routing/dist/core-routing.prod.js"></script>
 ```
 
 ## Development
