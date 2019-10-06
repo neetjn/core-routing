@@ -1,4 +1,5 @@
 import { IConfig } from './config';
+import { IEmitter } from './emitter';
 import {
   IStartEvent,
   IStopEvent,
@@ -46,6 +47,7 @@ export interface IRouter {
   config: IConfig;
   running: boolean;
   legacySupport: boolean;
+  emitter: IEmitter;
   listenerKey?: number;
   client?: IRouterClient;
 

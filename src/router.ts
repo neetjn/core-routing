@@ -11,6 +11,7 @@ import {
 import { IRouterLocation } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
+import { TypedEvent } from './interfaces/emitter';
 
 // Provider for generating memoize cache keys for router tools.
 // @param {string} route
@@ -182,6 +183,7 @@ class Router implements IRouter {
   public config: IConfig;
   public running: boolean;
   public legacySupport: boolean;
+  public emitter: TypedEvent<any>;
   public listenerKey?: number;
   public client?: IRouterClient;
 
@@ -189,6 +191,7 @@ class Router implements IRouter {
   public $previous: IRouterLocation;
 
   constructor (args: IRouterArgs) {
+    this.emitter = new TypedEvent();
     this.config = Object.assign(args.config || {}, Config);
     this.client = args.client;
     this.running = false;
