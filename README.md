@@ -134,6 +134,19 @@ Event details/structure can be seen [here](https://github.com/neetjn/core-routin
       }
     });
 
+    const navigateEvent = (e) => {
+      console.log('Navigate Event Handler Called!');
+      // remove defined event handler from router
+      router.off(navigateEvent);
+    };
+
+    // run event handler a single time
+    router.once('navigate', navigateEvent);
+    // dynamically specify event handler
+    router.on('start', (e) => {
+      console.log('Start Event Handler Called!');
+    });
+
     // start router
     router.start();
   };

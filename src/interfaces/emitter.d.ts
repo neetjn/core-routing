@@ -3,7 +3,7 @@ export interface IListener<T> {
 }
 
 export interface IDisposable {
-  dispose();
+  dispose ();
 }
 
 export interface IEmitter<T> {
