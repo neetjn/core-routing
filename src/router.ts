@@ -1,14 +1,14 @@
+import EventEmitter from 'events';
 import { Memoize } from 'typescript-memoize';
 import {
   IObject,
-  IRouterClient,
   IRouterToolsResult,
   IRouterToolsDetails,
   IRouterTools,
   IRouterArgs,
   IRouter
 } from './interfaces/router';
-import { IRouterLocation } from './interfaces/event';
+import { IRouterLocation, IEventHandler } from './interfaces/event';
 import { IConfig } from './interfaces/config';
 import { Config } from './config';
 
@@ -16,7 +16,8 @@ import { Config } from './config';
 // @param {string} route
 // @param {string} source
 // @returns {string}
-const memoizeRTKey = (route: string, source: string): string => `${route}:${source}`;
+const memoizeRTKey = (route: string, source: string): string =>
+  `${route}:${source}`;
 
 class RouterTools implements IRouterTools {
   public config: IConfig;
@@ -183,14 +184,25 @@ class Router implements IRouter {
   public running: boolean;
   public legacySupport: boolean;
   public listenerKey?: number;
-  public client?: IRouterClient;
 
+  public $emitter: EventEmitter;
   public $tools: IRouterTools;
   public $previous: IRouterLocation;
 
   constructor (args: IRouterArgs) {
-    this.config = Object.assign(args.config || {}, Config);
-    this.client = args.client;
+    this.$emitter = new EventEmitter();
+    if (args && args.client) {
+      if (args.client.onStart) {
+        this.$emitter.on('start', args.client.onStart);
+      }
+      if (args.client.onNavigate) {
+        this.$emitter.on('navigate', args.client.onNavigate);
+      }
+      if (args.client.onStop) {
+        this.$emitter.on('stop', args.client.onStop);
+      }
+    }
+    this.config = args.config ? Object.assign(args.config, Config) : Config;
     this.running = false;
     // set to legacy mode if target HTML5 history api event not detected
     this.legacySupport = !('onpopstate' in window);
@@ -234,13 +246,11 @@ class Router implements IRouter {
         // bypass onNavigate trigger
         return;
       }
-      if (this.client && this.client.onNavigate) {
-        this.client.onNavigate({
-          $tools: this.$tools,
-          location: this.$location,
-          previous: this.$previous
-        });
-      }
+      this.$emitter.emit('navigate', {
+        $tools: this.$tools,
+        location: this.$location,
+        previous: this.$previous
+      });
       this.$previous = this.$location;
     }
   }
@@ -252,12 +262,10 @@ class Router implements IRouter {
       this.running = true;
       // initialize default previous location
       this.$previous = this.$location;
-      if (this.client && this.client.onStart) {
-        this.client.onStart({
-          $tools: this.$tools,
-          location: this.$location
-        });
-      }
+      this.$emitter.emit('start', {
+        $tools: this.$tools,
+        location: this.$location
+      });
       if (this.legacySupport) {
         // if legacy support is detected, set listener on interval
         setInterval(this.watch.bind(this), this.config.intervals.listener);
@@ -272,18 +280,61 @@ class Router implements IRouter {
     if (this.running) {
       // toggle routing capabilities
       this.running = false;
-      if (this.client && this.client.onStop) {
-        this.client.onStop({
-          $tools: this.$tools,
-          location: this.$location
-        });
-      }
+      this.$emitter.emit('stop', {
+        $tools: this.$tools,
+        location: this.$location
+      });
       if (this.legacySupport) {
         window.removeEventListener('popstate', this.watch);
       } else {
         window.clearInterval(this.listenerKey);
       }
     }
+  }
+
+  /**
+   * Add listener for router event emitter.
+   * @param eventName - Name of event to target.
+   * @param eventHandler - Event handler to propagate.
+
+    router.on('start', (e) => {
+      console.log('Router has been started!');
+      e.$tools.match(...);
+    });
+
+   */
+  on (eventName: string, eventHandler: IEventHandler) {
+    this.$emitter.on(eventName, eventHandler);
+  }
+
+  /**
+   * Remove listener for router event emitter.
+   * @param eventName - Name of event to target.
+   * @param eventHandler - Event handler to propagate.
+
+    const stopEvent = (e) => {
+      ...
+    };
+
+    router.off('start', stopEvent);
+
+   */
+  off (eventName: string, eventHandler: IEventHandler) {
+    this.$emitter.off(eventName, eventHandler);
+  }
+
+  /**
+   * Add one time listener for router event emitter.
+   * @param eventName - Name of event to target.
+   * @param eventHandler - Event handler to propagate.
+
+    router.once('navigate', () => {
+      console.log('ran once on navigate');
+    });
+
+   */
+  once (eventName: string, eventHandler: IEventHandler) {
+    this.$emitter.once(eventName, eventHandler);
   }
 }
 

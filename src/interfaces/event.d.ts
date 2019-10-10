@@ -20,3 +20,7 @@ export interface INavigateEvent extends IRouterEvent {
   location: IRouterLocation;
   previous: IRouterLocation;
 }
+
+export type IEventHandler = (
+  handler: IStartEvent | IStopEvent | INavigateEvent
+) => void;

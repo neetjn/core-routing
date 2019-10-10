@@ -1,9 +1,11 @@
+import IEventEmitter from 'events';
 import { IConfig } from './config';
 import {
   IStartEvent,
   IStopEvent,
   INavigateEvent,
-  IRouterLocation
+  IRouterLocation,
+  IEventHandler
 } from './event';
 
 export interface IObject {
@@ -11,9 +13,9 @@ export interface IObject {
 }
 
 export interface IRouterClient {
-  onStart (event: IStartEvent): any;
-  onStop (event: IStopEvent): any;
-  onNavigate (event: INavigateEvent): any;
+  onStart (event: IEventHandler): void;
+  onStop (event: IEventHandler): void;
+  onNavigate (event: IEventHandler): void;
 }
 
 export interface IRouterToolsResult {
@@ -38,8 +40,8 @@ export interface IRouterTools {
 }
 
 export interface IRouterArgs {
+  client:? IRouterClient;
   config?: IConfig;
-  client?: IRouterClient;
 }
 
 export interface IRouter {
@@ -47,13 +49,17 @@ export interface IRouter {
   running: boolean;
   legacySupport: boolean;
   listenerKey?: number;
-  client?: IRouterClient;
 
+  $emitter: IEventEmitter;
   $tools: IRouterTools;
   $location: IRouterLocation;
   $previous: IRouterLocation;
 
-  watch (): any;
-  start (): any;
-  stop (): any;
+  watch (): void;
+  start (): void;
+  stop (): void;
+
+  on (eventName: string, eventHandler: IEventHandler): void;
+  off (eventName: string, eventHandler: IEventHandler): void;
+  once(eventName: string, eventHandler: IEventHandler): void;
 }
