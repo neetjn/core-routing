@@ -2,7 +2,7 @@ name: Continuous Integration
 on: [pull_request, push]
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: fedora-latest
     steps:
     - name: Checkout Project
       uses: actions/checkout@master
